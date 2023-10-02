@@ -3,15 +3,17 @@ import pandas as pd
 from loss_functions import Loss
 from activation_functions import Activation
 
+
 class Perceptron:
-    def __init__(self, epochs, learning_rate, loss) -> None:
+    def __init__(self, epochs, learning_rate, loss, activation) -> None:
         self.epochs = 10
         self.learning_rate = 0.01
         if epochs:
             self.epochs = epochs
         if learning_rate:
             self.learning_rate = learning_rate
-        
+
+        self.activation = activation
         self.loss = loss
 
     def dot_product(self, weights, inputs):
@@ -32,18 +34,13 @@ class Perceptron:
             weights.append(random.random())
         return weights
 
-    def activation(self, x):
-        return 1 if x >= 0 else 0
+    def activation(self, z):
+        activation_function = Activation(z, self.activation)
+        return activation_function.activation()
 
     def loss(self, z):
-        loss = Loss(z) 
-        if self.loss=='step':
-            return loss.step()
-        elif self.loss=='sigmoid':
-            return loss.sigmoid()
-        elif self.loss=='tanh':
-            return loss.tanh()
-        elif self.
+        pass
+        # loss = Loss(z)
 
     def train(self, inputs, outputs, weights, epochs):
         for epoch in range(epochs):
