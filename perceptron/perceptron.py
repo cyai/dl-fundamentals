@@ -13,8 +13,8 @@ class Perceptron:
         if learning_rate:
             self.learning_rate = learning_rate
 
-        self.activation = activation
-        self.loss = loss
+        self.activation_function = activation
+        self.loss_function = loss
 
     def dot_product(self, weights, inputs):
         return sum([w * x for w, x in zip(weights, inputs)])
@@ -35,12 +35,12 @@ class Perceptron:
         return weights
 
     def activation(self, z):
-        activation_function = Activation(z, self.activation)
+        activation_function = Activation(z, self.activation_function)
         return activation_function.activation()
 
-    def loss(self, z):
-        pass
-        # loss = Loss(z)
+    def loss(self, y, y_hat):
+        loss_funtion = Loss(y, y_hat, self.loss_function)
+        return loss_funtion.loss()
 
     def train(self, inputs, outputs, weights, epochs):
         for epoch in range(epochs):
@@ -58,8 +58,8 @@ class Perceptron:
 
 
 if __name__ == "__main__":
-    perceptron = Perceptron()
-    df = perceptron.read_csv("data.csv")
+    perceptron = Perceptron(10, 0.01, "mse", "step")
+    df = perceptron.read_csv("./perceptron/data.csv")
     inputs, outputs = perceptron.input_output_split(df)
     weights = perceptron.init_weights(len(inputs.columns))
     weights = perceptron.train(

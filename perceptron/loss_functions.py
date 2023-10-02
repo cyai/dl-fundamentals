@@ -3,10 +3,25 @@ import numpy as np
 
 
 class Loss:
-    def __init__(self, y, y_hat) -> None:
+    def __init__(self, y, y_hat, loss) -> None:
         self.y = y
         self.y_hat = y_hat
+        self.loss_function = loss
 
+    def loss(self):
+        if self.loss_function=='mse':
+            return self.mean_square_error()
+        elif self.loss_function=='mae':
+            return self.mean_absolute_error()
+        elif self.loss_function=='binary_cross_entropy':
+            return self.binary_cross_etropy()
+        elif self.loss_function=='huber_loss':
+            return self.huber_loss()
+        elif self.loss_function=='categorical_binary_cross_entropy':
+            return self.categorical_binary_cross_entropy()
+        else:
+            raise ValueError("Loss function not supported")
+        
     def mean_square_error(self):
         return (self.y - self.y_hat) ** 2
 
